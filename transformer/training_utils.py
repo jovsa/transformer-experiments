@@ -39,7 +39,6 @@ def run_epoch(data_iter, model, loss_compute):
         out = model.forward(batch.src, batch.trg,
                             batch.src_mask, batch.trg_mask)
         loss = loss_compute(out, batch.trg_y, batch.ntokens)
-        # from pdb import set_trace; set_trace()
         total_loss += loss
         total_tokens += batch.ntokens
         tokens += batch.ntokens
@@ -144,5 +143,5 @@ class LabelSmoothing(nn.Module):
             true_dist.index_fill_(0, mask.squeeze(), 0.0)
         self.true_dist = true_dist
         res = self.criterion(x, Variable(true_dist, requires_grad=False))
-        # from pdb import set_trace; set_trace()
+        res = torch.unsqueeze(res, 0)
         return res
