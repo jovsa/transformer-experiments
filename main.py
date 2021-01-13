@@ -1,6 +1,7 @@
-from transformer.model import *
-from transformer.training_utils import *
-from pdb import set_trace
+import torch
+from transformer.model import make_model
+from transformer.training_utils import LabelSmoothing, NoamOpt, run_epoch, SimpleLossCompute, data_gen
+# from pdb import set_trace
 
 
 # training loop
