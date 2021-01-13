@@ -26,5 +26,6 @@ for epoch in range(10):
     run_epoch(data_gen(V, 30, 20), model,
               SimpleLossCompute(model.generator, criterion, model_opt))
     model.eval()
-    print(run_epoch(data_gen(V, 30, 5), model,
-                    SimpleLossCompute(model.generator, criterion, None)))
+    tot_loss = run_epoch(data_gen(V, 30, 5), model,
+                SimpleLossCompute(model.generator, criterion, None))
+    print("total loss:", tot_loss.item())
