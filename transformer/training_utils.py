@@ -173,3 +173,29 @@ def data_gen(V, batch, nbatches):
         src = Variable(data, requires_grad=False)
         tgt = Variable(data, requires_grad=False)
         yield Batch(src, tgt, 0)
+
+## greedy decode
+def _run(model, src, src_mask, max_len, start_symbol):
+    memory = model.encode(src, src_mask)
+    ys = torch.ones(1, 1).fill_(start_symbol).type_as(src.data)
+    for i in range(max_len-1):
+        out = model.decode(memory, src_mask,
+                           Variable(ys),
+                           Variable(subsequent_mask(ys.size(1))
+                                    .type_as(src.data)))
+        prob = model.generator(out[:, -1])
+        _, next_word = torch.max(prob, dim = 1)
+        next_word = next_word.data[0]
+        ys = torch.cat([ys,
+                        torch.ones(1, 1).type_as(src.data).fill_(next_word)], dim=1)
+    return ys
+
+def greedy_decode(model, max_len, start_symbol, src=None, src_mask=None):
+    if not (src and src_mask):
+        src = Variable(torch.LongTensor([[1,2,3,4,5,6,7,8,9,10]]) )
+        src_mask = Variable(torch.ones(1, 1, 10) )
+
+    return _run(model, src, src_mask, max_len, start_symbol)
+
+
+

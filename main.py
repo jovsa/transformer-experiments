@@ -6,13 +6,15 @@ from transformer.training_utils import (
     run_epoch,
     SimpleLossCompute,
     data_gen,
+    greedy_decode
 )
 
 # from pdb import set_trace
 
 
-# training loop
+## setup / initialize
 V = 11
+num_epoches = 1
 criterion = LabelSmoothing(size=V, padding_idx=0, smoothing=0.0)
 model = make_model(V, V, N=2)
 model_opt = NoamOpt(
@@ -22,7 +24,8 @@ model_opt = NoamOpt(
     torch.optim.Adam(model.parameters(), lr=0, betas=(0.9, 0.98), eps=1e-9),
 )
 
-for epoch in range(10):
+## training loop
+for epoch in range(num_epoches):
     model.train()
     run_epoch(
         data_gen(V, 30, 20),
@@ -34,3 +37,7 @@ for epoch in range(10):
         data_gen(V, 30, 5), model, SimpleLossCompute(model.generator, criterion, None)
     )
     print("total loss:", tot_loss.item())
+
+## evaluate
+model.eval()
+print(greedy_decode(model, max_len=10, start_symbol=1))
