@@ -6,7 +6,7 @@ from transformer.training_utils import (
     run_epoch,
     SimpleLossCompute,
     data_gen,
-    greedy_decode
+    greedy_decode,
 )
 
 # from pdb import set_trace
