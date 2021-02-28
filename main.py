@@ -41,3 +41,4 @@ for epoch in range(num_epoches):
 ## evaluate
 model.eval()
 print(greedy_decode(model, max_len=10, start_symbol=1))
+print('lol')
