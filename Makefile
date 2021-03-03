@@ -1,4 +1,3 @@
-SHELL:=/bin/bash
 PROJECT=transformer-experiments
 VERSION=3.8.2
 VENV=${PROJECT}-${VERSION}
