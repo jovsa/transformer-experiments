@@ -4,7 +4,7 @@ VENV=${PROJECT}-${VERSION}
 VENV_DIR=$(shell pyenv root)/versions/${VENV}
 PYTHON=${VENV_DIR}/bin/python
 
-## Make sure you have `pyenv` and `pyenv-virtualenv` installed beforehand
+## Assumption: You have `pyenv` and `pyenv-virtualenv` installed beforehand
 ##
 ## https://github.com/pyenv/pyenv
 ## https://github.com/pyenv/pyenv-virtualenv
@@ -16,13 +16,13 @@ ccbold=$(shell tput bold)
 ccgreen=$(shell tput setaf 2)
 ccso=$(shell tput smso)
 
-clean: ## >> remove all environment and build files
+clean: ## >> remove all environment and build files.
 	@echo ""
 	@echo "$(ccso)--> Removing virtual environment $(ccend)"
 	pyenv virtualenv-delete --force ${VENV}
 	rm .python-version
 
-build: ##@main >> build a new virtual environment
+build: ##@main >> build a new virtual environment.
 	@echo ""
 	@echo "$(ccso)--> Build $(ccend)"
 	$(MAKE) install
@@ -40,7 +40,7 @@ install: venv requirements.txt ##@main >> update requirements.txt inside the vir
 	@echo "$(ccso)--> Updating packages $(ccend)"
 	$(PYTHON) -m pip install -r requirements.txt
 
-deactivate: ##@main >> deactivate current virtualenv.
+deactivate: ##@main >> deactivate current virtualenv and use local system python
 	pyenv local system
 
 # And add help text after each target name starting with '\#\#'
